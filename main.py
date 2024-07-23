@@ -1,11 +1,9 @@
 from tkinter import *
-from tkinter import ttk
 from datetime import datetime
 from PIL import ImageTk
 from tkvideo import tkvideo
-import re
 import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
+from pathlib import Path
 
 
 # Глобальные переменные
@@ -28,7 +26,6 @@ def update_clock():
     t = today.strftime("%Y-%m-%d %H:%M:%S")
     labelInfo.configure(text=t)
     root.after(1000, update_clock)
-
 
 
 def close():
@@ -56,10 +53,11 @@ def click_cap():
     win.title('Подтверждение информации')
     lab = Label(win, text='Вы хотите приготовить капучино?', font=("Times New Roman", 10, "bold"))
     lab.pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP,
+    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
                      text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP, text="Нет",
+    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13),  text="Нет",
                     width=10, command=close).pack(anchor='e')
+    minus_ingr(recepie.cofcap, recepie.mcap, recepie.crcap, recepie.wcap)
 
 
 def click_ame():
@@ -73,10 +71,11 @@ def click_ame():
     win.resizable(width=False, height=False)
     win.title('Подтверждение информации')
     l = Label(win, text='Вы хотите приготовить американо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP,
+    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
                      text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP, text="Нет",
+    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
                     width=10, command=close).pack(anchor='e')
+    minus_ingr(recepie.cofame, recepie.mame, recepie.crame, recepie.wame)
 
 
 def click_lat():
@@ -90,10 +89,11 @@ def click_lat():
     win.resizable(width=False, height=False)
     win.title('Подтверждение информации')
     l = Label(win, text='Вы хотите приготовить латте?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP,
+    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
                      text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP, text="Нет",
+    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
                     width=10, command=close).pack(anchor='e')
+    minus_ingr(recepie.coflat, recepie.mlat, recepie.crlat, recepie.wlat)
 
 
 def click_de():
@@ -107,10 +107,11 @@ def click_de():
     win.resizable(width=False, height=False)
     win.title('Подтверждение информации')
     l = Label(win, text='Вы хотите приготовить дв.эспрессо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP,
+    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
                      text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP, text="Нет",
+    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
                     width=10, command=close).pack(anchor='e')
+    minus_ingr(recepie.cofdex, recepie.mdex, recepie.crdex, recepie.wdex)
 
 
 def click_moc():
@@ -124,10 +125,11 @@ def click_moc():
     win.resizable(width=False, height=False)
     win.title('Подтверждение информации')
     l = Label(win, width=20, text='Вы хотите приготовить мокачино?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP,
+    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
                      text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP, text="Нет",
+    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13),  text="Нет",
                     width=10, command=close).pack(anchor='e')
+    minus_ingr(recepie.cofmo, recepie.mmo, recepie.crmo, recepie.wmo)
 
 
 def click_ex():
@@ -141,9 +143,9 @@ def click_ex():
     win.resizable(width=False, height=False)
     win.title('Подтверждение информации')
     l = Label(win, text='Вы хотите приготовить эспрессо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP, text="Да", command=cook).place(x=0,y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), compound=TOP, text="Нет", width=10, command=close).pack(anchor='e')
-
+    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), text="Да", command=cook).place(x=0,y=21)
+    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет", width=10, command=close).pack(anchor='e')
+    minus_ingr(recepie.cofex, recepie.mex, recepie.crex, recepie.wex)
 
 def cook():
     def both():
@@ -151,9 +153,7 @@ def cook():
         start_vid()
     def tick():
         global temp, after_id
-        stop = True
-        after_id = win.after(50, tick)
-        t = re.sub('\D', '', after_id)
+        after_id = win.after(10, tick)
         temp += 1
         lproc.configure(text=str(temp) + "%")
         lproc.pack(pady=5)
@@ -186,7 +186,67 @@ def cook():
     lready = Label(win1, text="Готово! \n Заберите ваш кофе", fg='gray', bg='black', font=("Times New Roman", 16, "bold"))
     btnClose = ttk.Button(win1, text="В главное меню", command=closeall)
     both()
-    lproc.configure("0%")
+
+
+
+def start_cfg():
+    with open('src/ingr.txt', 'w', encoding='UTF-8') as file:
+                file.write ('0 0 0 0')
+
+
+
+def latest_start():
+    # cfg[1] - coffee
+    # cfg[2] - milk
+    # cfg[3] - cream
+    # cfg[4] - water
+    with open('src/ingr.txt', 'r', encoding='UTF-8') as file:
+        cfg = list(file.read().split(" "))
+        return cfg
+
+
+def minus_ingr(coffee, milk, cream, water):
+    cfg = latest_start()
+    newcfg = str([int(cfg[0])-coffee,int(cfg[1]) - milk, int(cfg[2]) - cream, int(cfg[3]) - water])
+    with open('src/ingr.txt', 'w', encoding='UTF-8') as file:
+        new = ''
+        for i in newcfg:
+            if i != '[' and i != ']' and i != ',':
+                new = new + i
+        file.write(new)
+
+
+class recepie:
+    cofcap = 7
+    cofame = 8
+    coflat = 7
+    cofex = 8
+    cofdex = 8
+    cofmo = 8
+    mcap = 270
+    mame = 0
+    mlat = 135
+    mex = 0
+    mdex = 8
+    mmo = 165
+    wcap = 30
+    wame = 300
+    wlat = 30
+    wex = 30
+    wdex = 60
+    wmo = 0
+    crcap = 0
+    crame = 0
+    crlat = 135
+    crex = 0
+    crdex = 0
+    crmo = 105
+
+
+mypath = Path('src/ingr.txt')
+if mypath.stat().st_size == 0:
+    start_cfg()
+
 
 # Логирование работы
 file = open('log/logs.txt', 'a', encoding='UTF-8')
@@ -195,8 +255,7 @@ file.write('___Дата___|__Время__|___Напиток____' + '\n' )
 file.close()
 
 
-#Наличие ингридиентов
-file = op
+
 
 
 # Параметры основного окна
