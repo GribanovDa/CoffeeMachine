@@ -4,6 +4,7 @@ from PIL import ImageTk
 from tkvideo import tkvideo
 import ttkbootstrap as ttk
 from pathlib import Path
+import hashlib
 
 
 # Глобальные переменные
@@ -153,13 +154,13 @@ def cook():
         start_vid()
     def tick():
         global temp, after_id
-        after_id = win.after(10, tick)
+        after_id = win1.after(10, tick)
         temp += 1
         lproc.configure(text=str(temp) + "%")
         lproc.pack(pady=5)
         if int(temp) == 100:
             temp = 0
-            win.after_cancel(after_id)
+            win1.after_cancel(after_id)
             lvid.pack_forget()
             lready.pack(pady=5)
             btnClose.pack(pady=15)
@@ -190,7 +191,7 @@ def cook():
 
 
 def start_cfg():
-    with open('src/ingr.txt', 'w', encoding='UTF-8') as file:
+    with open('cfg/ingr.txt', 'w', encoding='UTF-8') as file:
                 file.write ('0 0 0 0')
 
 
@@ -200,7 +201,7 @@ def latest_start():
     # cfg[2] - milk
     # cfg[3] - cream
     # cfg[4] - water
-    with open('src/ingr.txt', 'r', encoding='UTF-8') as file:
+    with open('cfg/ingr.txt', 'r', encoding='UTF-8') as file:
         cfg = list(file.read().split(" "))
         return cfg
 
@@ -208,12 +209,48 @@ def latest_start():
 def minus_ingr(coffee, milk, cream, water):
     cfg = latest_start()
     newcfg = str([int(cfg[0])-coffee,int(cfg[1]) - milk, int(cfg[2]) - cream, int(cfg[3]) - water])
-    with open('src/ingr.txt', 'w', encoding='UTF-8') as file:
+    with open('cfg/ingr.txt', 'w', encoding='UTF-8') as file:
         new = ''
         for i in newcfg:
             if i != '[' and i != ']' and i != ',':
                 new = new + i
         file.write(new)
+
+
+def set_config():
+    win3 = Toplevel()
+    win3.grab_set()
+    win3['bg'] = 'gray'
+    win3.geometry('250x200+850+405')
+    win3.resizable(width=False, height=False)
+    win3.title('Смена конфигурации')
+
+
+def admin():
+    def confirm():
+        pw = password_place.get()
+        hash_password = str(hashlib.sha256(pw.encode()).hexdigest())
+
+        with open('cfg/pw.txt', 'r') as password:
+            pas = password.read()
+            if hash_password == pas:
+                set_config()
+    win2 = Toplevel()
+    win2.grab_set()
+    win2['bg'] = 'gray'
+    win2.geometry('250x100+850+405')
+    win2.resizable(width=False, height=False)
+    win2.title('Значения конфигурации')
+    label = ttk.Label(win2, text="Введите пароль администратора:")
+    password_place = ttk.Entry(win2, show='*')
+    btn_enter_pass = Button(win2, text='Подтвердить', font=('Times New Roman', 11), width=13, bg='white', fg='black', command=confirm)
+    btn_change_pass = Button(win2, text='Сменить пароль', font=('Times New Roman', 11),width=13, bg='white', fg='black')
+    btnCfg.place(x=548, y=685)
+    label.pack()
+    password_place.pack(padx=4,pady=9)
+    btn_enter_pass.place(x=130, y = 65)
+    btn_change_pass.place(x=10, y = 65)
+
 
 
 class recepie:
@@ -243,7 +280,7 @@ class recepie:
     crmo = 105
 
 
-mypath = Path('src/ingr.txt')
+mypath = Path('cfg/ingr.txt')
 if mypath.stat().st_size == 0:
     start_cfg()
 
@@ -253,9 +290,6 @@ file = open('log/logs.txt', 'a', encoding='UTF-8')
 file.write('\nЗапуск кофемашины ' + datatime(False) + '\n')
 file.write('___Дата___|__Время__|___Напиток____' + '\n' )
 file.close()
-
-
-
 
 
 # Параметры основного окна
@@ -296,13 +330,14 @@ labelLogo = ttk.Label(root, background='white', image=imgLogo).pack(anchor=CENTE
 labelMain = ttk.Label(root, text='Выберите напиток', background='white', font='Calibri 35 bold').pack(padx=20, pady=0)
 update_clock()
 
-
-btnEcsp = ttk.Button(root, image=imgEx, text='Эспрессо', command=click_ex).place(x=40, y=300)
-btnAmer = ttk.Button(root, image=imgAm, text='Американо', command=click_ame).place(x=40, y=510)
-btnLat = ttk.Button(root, image=imgLat, text='Латте', command=click_lat).place(x=280, y=300)
-btnDEcsp = ttk.Button(root, image=imgDEx, text='x2 Эспрессо',command=click_de).place(x=510, y=300)
-btnMoc = ttk.Button(root, image=imgMoc, text='Мокачино', command=click_moc).place(x=280, y=510)
-btnCapuch = ttk.Button(root, image=imgCap, text='Капучино', command=click_cap).place(x=510, y=510)
+btnCfg = Button(root, text='Задать параметры конфигурации', font=('Times New Roman', 9), bg = 'white', fg = 'black', command=admin)
+btnCfg.place(x=528, y = 685)
+btnEcsp = ttk.Button(root, image=imgEx, text='Эспрессо', command=click_ex).place(x=40, y=260)
+btnAmer = ttk.Button(root, image=imgAm, text='Американо', command=click_ame).place(x=40, y=470)
+btnLat = ttk.Button(root, image=imgLat, text='Латте', command=click_lat).place(x=280, y=260)
+btnDEcsp = ttk.Button(root, image=imgDEx, text='x2 Эспрессо',command=click_de).place(x=510, y=260)
+btnMoc = ttk.Button(root, image=imgMoc, text='Мокачино', command=click_moc).place(x=280, y=470)
+btnCapuch = ttk.Button(root, image=imgCap, text='Капучино', command=click_cap).place(x=510, y=470)
 
 
 
