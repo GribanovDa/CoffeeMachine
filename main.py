@@ -218,12 +218,39 @@ def minus_ingr(coffee, milk, cream, water):
 
 
 def set_config():
+    def confirm_cfg():
+        coffee = str(coffeePlace.get())
+        milk = str(milkPlace.get())
+        cream = str(creamPlace.get())
+        water = str(waterPlace.get())
+        with open('cfg/ingr.txt', 'w', encoding='UTF-8') as file:
+            file.write(coffee + ' ' + milk + ' ' + cream + ' ' + water)
+        win3.destroy()
     win3 = Toplevel()
     win3.grab_set()
     win3['bg'] = 'gray'
     win3.geometry('250x200+850+405')
     win3.resizable(width=False, height=False)
     win3.title('Смена конфигурации')
+    labelCoffee = ttk.Label(win3, text="Кофе:", background="gray", foreground='black', font=("Times New Roman", 12, 'bold'))
+    labelCoffee.pack(pady=9, padx=7, anchor='w')
+    labelMilk = ttk.Label(win3, text="Молоко:", background="gray",foreground='black', font=("Times New Roman", 12, 'bold'))
+    labelMilk.pack(pady=7, padx=7, anchor='w')
+    labelCream = ttk.Label(win3, text="Сливки:", background="gray",foreground='black', font=("Times New Roman", 12, 'bold'))
+    labelCream.pack(pady=8, padx=7, anchor='w')
+    labelWater = ttk.Label(win3, text="Вода:", background="gray",foreground='black', font=("Times New Roman", 12, 'bold'))
+    labelWater.pack(pady=8, padx=7, anchor='w')
+    coffeePlace = ttk.Entry(win3)
+    coffeePlace.place(x=100, y=5)
+    milkPlace = ttk.Entry(win3)
+    milkPlace.place(x=100, y=45)
+    creamPlace = ttk.Entry(win3)
+    creamPlace.place(x=100, y=85)
+    waterPlace = ttk.Entry(win3)
+    waterPlace.place(x=100, y=125)
+    btnConfirm = Button(win3, text='Подтвердить', font=('Times New Roman', 11), width=13, bg='white', fg='black', command=confirm_cfg)
+    btnConfirm.pack(pady=8)
+
 
 
 def admin():
@@ -235,6 +262,48 @@ def admin():
             pas = password.read()
             if hash_password == pas:
                 set_config()
+                win2.destroy()
+            else:
+                label['text'] = 'Неверный пароль'
+
+
+    def change_password():
+        win2.destroy()
+        def try_pass():
+            oldpw = oldPassPlace.get()
+            hash_oldpasswordd = str(hashlib.sha256(oldpw.encode()).hexdigest())
+            newpw = newPassPlace.get()
+            hash_newpasswordd = str(hashlib.sha256(newpw.encode()).hexdigest())
+            with open('cfg/pw.txt', 'r') as pw:
+                passw = pw.read()
+            if passw == hash_oldpasswordd:
+                with open('cfg/pw.txt', 'w') as changepw:
+                    changepw.write(hash_newpasswordd)
+                    win4.destroy()
+            else:
+                labelConfirm['text'] = 'Неверный старый пароль'
+
+
+        win4 = Toplevel()
+        win4.grab_set()
+        win4['bg'] = 'gray'
+        win4.geometry('250x150+850+405')
+        win4.resizable(width=False, height=False)
+        win4.title('Смена пароля')
+        oldPassPlace = ttk.Entry(win4, width=17, show='*')
+        oldPassPlace.place(x=125, y=5)
+        newPassPlace = ttk.Entry(win4, width=17, show='*')
+        newPassPlace.place(x=125, y=45)
+        labelOldPass = ttk.Label(win4, text="Старый пароль:", background="gray", foreground='black', font=("Times New Roman", 11, 'bold'))
+        labelOldPass.pack(pady=9, padx=7, anchor='w')
+        labelNewPass = ttk.Label(win4, text="Новый пароль:", background="gray", foreground='black', font=("Times New Roman", 11, 'bold'))
+        labelNewPass.pack(pady=7, padx=7, anchor='w')
+        labelConfirm = ttk.Label(win4, background='gray', text='Заполните поля', font=("Times New Roman", 11, 'bold'))
+        labelConfirm.pack(anchor='n', pady=7)
+        btnConfirm = Button(win4, text='Подтвердить', font=('Times New Roman', 11), width=13, bg='white', fg='black', command=try_pass)
+        btnConfirm.pack(anchor='n')
+
+
     win2 = Toplevel()
     win2.grab_set()
     win2['bg'] = 'gray'
@@ -244,12 +313,13 @@ def admin():
     label = ttk.Label(win2, text="Введите пароль администратора:")
     password_place = ttk.Entry(win2, show='*')
     btn_enter_pass = Button(win2, text='Подтвердить', font=('Times New Roman', 11), width=13, bg='white', fg='black', command=confirm)
-    btn_change_pass = Button(win2, text='Сменить пароль', font=('Times New Roman', 11),width=13, bg='white', fg='black')
-    btnCfg.place(x=548, y=685)
+    btn_change_pass = Button(win2, text='Сменить пароль', font=('Times New Roman', 11),width=13, bg='white', fg='black', command=change_password)
     label.pack()
-    password_place.pack(padx=4,pady=9)
-    btn_enter_pass.place(x=130, y = 65)
-    btn_change_pass.place(x=10, y = 65)
+    password_place.pack(padx=4, pady=9)
+    btn_enter_pass.place(x=130, y=65)
+    btn_change_pass.place(x=10, y=65)
+
+
 
 
 
@@ -295,7 +365,7 @@ file.close()
 # Параметры основного окна
 root = Tk('minty')
 root. title("Умная кофеварка")
-root.geometry('720x720+600+200')
+root.geometry('720x720+500+50')
 root.resizable(width=False, height=False)
 root['bg'] = 'white'
 
@@ -331,7 +401,7 @@ labelMain = ttk.Label(root, text='Выберите напиток', background='
 update_clock()
 
 btnCfg = Button(root, text='Задать параметры конфигурации', font=('Times New Roman', 9), bg = 'white', fg = 'black', command=admin)
-btnCfg.place(x=528, y = 685)
+btnCfg.place(x=514, y=685)
 btnEcsp = ttk.Button(root, image=imgEx, text='Эспрессо', command=click_ex).place(x=40, y=260)
 btnAmer = ttk.Button(root, image=imgAm, text='Американо', command=click_ame).place(x=40, y=470)
 btnLat = ttk.Button(root, image=imgLat, text='Латте', command=click_lat).place(x=280, y=260)
