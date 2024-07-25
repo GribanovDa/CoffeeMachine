@@ -43,110 +43,180 @@ def closeall():
 
 
 def click_cap():
-    global coice
-    global win
-    coice = 'капучино'
-    win = Toplevel()
-    win.grab_set()
-    win['bg'] = 'black'
-    win.geometry('210x54+850+405')
-    win.resizable(width=False, height=False)
-    win.title('Подтверждение информации')
-    lab = Label(win, text='Вы хотите приготовить капучино?', font=("Times New Roman", 10, "bold"))
-    lab.pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
-                     text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13),  text="Нет",
-                    width=10, command=close).pack(anchor='e')
-    minus_ingr(recepie.cofcap, recepie.mcap, recepie.crcap, recepie.wcap)
+    ingr = latest_start()
+    if int(ingr[0]) < recepie.cofcap or int(ingr[1]) < recepie.mcap or int(ingr[2]) < recepie.crcap or int(
+            ingr[3]) < recepie.wcap:
+        win1 = Toplevel()
+        win1.grab_set()
+        win1['bg'] = 'white'
+        win1.geometry('210x54+850+405')
+        win1.resizable(width=False, height=False)
+        win1.title('Нет ингридиентов')
+        label = Label(win1, text='В кофемашине \nнедостаточно ингридиентов!', background='red',
+                      font=("Times New Roman", 10, "bold")).pack(fill=X)
+    else:
+        global coice
+        global win
+        coice = 'капучино'
+        win = Toplevel()
+        win.grab_set()
+        win['bg'] = 'black'
+        win.geometry('210x54+850+405')
+        win.resizable(width=False, height=False)
+        win.title('Подтверждение информации')
+        lab = Label(win, text='Вы хотите приготовить капучино?', font=("Times New Roman", 10, "bold"))
+        lab.pack(fill=X)
+        btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
+                         text="Да", command=cook).place(x=0, y=21)
+        btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13),  text="Нет",
+                        width=10, command=close).pack(anchor='e')
+        minus_ingr(recepie.cofcap, recepie.mcap, recepie.crcap, recepie.wcap)
 
 
 def click_ame():
-    global coice
-    global win
-    coice = "американо"
-    win = Toplevel()
-    win.grab_set()
-    win['bg'] = 'black'
-    win.geometry('210x54+850+405')
-    win.resizable(width=False, height=False)
-    win.title('Подтверждение информации')
-    l = Label(win, text='Вы хотите приготовить американо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
-                     text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
-                    width=10, command=close).pack(anchor='e')
-    minus_ingr(recepie.cofame, recepie.mame, recepie.crame, recepie.wame)
+    ingr = latest_start()
+    if int(ingr[0]) < recepie.cofame or int(ingr[1]) < recepie.mame or int(ingr[2]) < recepie.crame or int(
+            ingr[3]) < recepie.wame:
+        win1 = Toplevel()
+        win1.grab_set()
+        win1['bg'] = 'white'
+        win1.geometry('210x54+850+405')
+        win1.resizable(width=False, height=False)
+        win1.title('Нет ингридиентов')
+        label = Label(win1, text='В кофемашине \nнедостаточно ингридиентов!', background='red',
+                      font=("Times New Roman", 10, "bold")).pack(fill=X)
+    else:
+        global coice
+        global win
+        coice = "американо"
+        win = Toplevel()
+        win.grab_set()
+        win['bg'] = 'black'
+        win.geometry('210x54+850+405')
+        win.resizable(width=False, height=False)
+        win.title('Подтверждение информации')
+        l = Label(win, text='Вы хотите приготовить американо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
+        btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
+                         text="Да", command=cook).place(x=0, y=21)
+        btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
+                        width=10, command=close).pack(anchor='e')
+        minus_ingr(recepie.cofame, recepie.mame, recepie.crame, recepie.wame)
 
 
 def click_lat():
-    global coice
-    global win
-    coice = "латте"
-    win = Toplevel()
-    win.grab_set()
-    win['bg'] = 'black'
-    win.geometry('210x54+850+405')
-    win.resizable(width=False, height=False)
-    win.title('Подтверждение информации')
-    l = Label(win, text='Вы хотите приготовить латте?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
-                     text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
-                    width=10, command=close).pack(anchor='e')
-    minus_ingr(recepie.coflat, recepie.mlat, recepie.crlat, recepie.wlat)
+    ingr = latest_start()
+    if int(ingr[0]) < recepie.coflat or int(ingr[1]) < recepie.mlat or int(ingr[2]) < recepie.crlat or int(
+            ingr[3]) < recepie.wlat:
+        win1 = Toplevel()
+        win1.grab_set()
+        win1['bg'] = 'white'
+        win1.geometry('210x54+850+405')
+        win1.resizable(width=False, height=False)
+        win1.title('Нет ингридиентов')
+        label = Label(win1, text='В кофемашине \nнедостаточно ингридиентов!', background='red',
+                      font=("Times New Roman", 10, "bold")).pack(fill=X)
+    else:
+        global coice
+        global win
+        coice = "латте"
+        win = Toplevel()
+        win.grab_set()
+        win['bg'] = 'black'
+        win.geometry('210x54+850+405')
+        win.resizable(width=False, height=False)
+        win.title('Подтверждение информации')
+        l = Label(win, text='Вы хотите приготовить латте?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
+        btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
+                         text="Да", command=cook).place(x=0, y=21)
+        btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
+                        width=10, command=close).pack(anchor='e')
+        minus_ingr(recepie.coflat, recepie.mlat, recepie.crlat, recepie.wlat)
 
 
 def click_de():
-    global coice
-    global win
-    coice = "дв.эспрессо"
-    win = Toplevel()
-    win.grab_set()
-    win['bg'] = 'black'
-    win.geometry('210x54+850+405')
-    win.resizable(width=False, height=False)
-    win.title('Подтверждение информации')
-    l = Label(win, text='Вы хотите приготовить дв.эспрессо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
-                     text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
-                    width=10, command=close).pack(anchor='e')
-    minus_ingr(recepie.cofdex, recepie.mdex, recepie.crdex, recepie.wdex)
+    ingr = latest_start()
+    if int(ingr[0]) < recepie.cofdex or int(ingr[1]) < recepie.mdex or int(ingr[2]) < recepie.crdex or int(
+            ingr[3]) < recepie.wdex:
+        win1 = Toplevel()
+        win1.grab_set()
+        win1['bg'] = 'white'
+        win1.geometry('210x54+850+405')
+        win1.resizable(width=False, height=False)
+        win1.title('Нет ингридиентов')
+        label = Label(win1, text='В кофемашине \nнедостаточно ингридиентов!', background='red',
+                      font=("Times New Roman", 10, "bold")).pack(fill=X)
+    else:
+        global coice
+        global win
+        coice = "дв.эспрессо"
+        win = Toplevel()
+        win.grab_set()
+        win['bg'] = 'black'
+        win.geometry('210x54+850+405')
+        win.resizable(width=False, height=False)
+        win.title('Подтверждение информации')
+        l = Label(win, text='Вы хотите приготовить дв.эспрессо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
+        btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
+                         text="Да", command=cook).place(x=0, y=21)
+        btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет",
+                        width=10, command=close).pack(anchor='e')
+        minus_ingr(recepie.cofdex, recepie.mdex, recepie.crdex, recepie.wdex)
 
 
 def click_moc():
-    global coice
-    global win
-    coice = "мокачино"
-    win = Toplevel()
-    win.grab_set()
-    win['bg'] = 'black'
-    win.geometry('210x54+850+405')
-    win.resizable(width=False, height=False)
-    win.title('Подтверждение информации')
-    l = Label(win, width=20, text='Вы хотите приготовить мокачино?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
-                     text="Да", command=cook).place(x=0, y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13),  text="Нет",
-                    width=10, command=close).pack(anchor='e')
-    minus_ingr(recepie.cofmo, recepie.mmo, recepie.crmo, recepie.wmo)
+    ingr = latest_start()
+    if int(ingr[0]) < recepie.cofmo or int(ingr[1]) < recepie.mmo or int(ingr[2]) < recepie.crmo or int(
+            ingr[3]) < recepie.wmo:
+        win1 = Toplevel()
+        win1.grab_set()
+        win1['bg'] = 'white'
+        win1.geometry('210x54+850+405')
+        win1.resizable(width=False, height=False)
+        win1.title('Нет ингридиентов')
+        label = Label(win1, text='В кофемашине \nнедостаточно ингридиентов!', background='red',
+                      font=("Times New Roman", 10, "bold")).pack(fill=X)
+    else:
+        global coice
+        global win
+        coice = "мокачино"
+        win = Toplevel()
+        win.grab_set()
+        win['bg'] = 'black'
+        win.geometry('210x54+850+405')
+        win.resizable(width=False, height=False)
+        win.title('Подтверждение информации')
+        l = Label(win, width=20, text='Вы хотите приготовить мокачино?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
+        btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13),
+                         text="Да", command=cook).place(x=0, y=21)
+        btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13),  text="Нет",
+                        width=10, command=close).pack(anchor='e')
+        minus_ingr(recepie.cofmo, recepie.mmo, recepie.crmo, recepie.wmo)
 
 
 def click_ex():
-    global coice
-    global win
-    coice = "эспрессо"
-    win = Toplevel()
-    win.grab_set()
-    win['bg'] = 'white'
-    win.geometry('210x54+850+405')
-    win.resizable(width=False, height=False)
-    win.title('Подтверждение информации')
-    l = Label(win, text='Вы хотите приготовить эспрессо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
-    btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), text="Да", command=cook).place(x=0,y=21)
-    btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет", width=10, command=close).pack(anchor='e')
-    minus_ingr(recepie.cofex, recepie.mex, recepie.crex, recepie.wex)
+    ingr = latest_start()
+    if int(ingr[0]) < recepie.cofex or int(ingr[1]) < recepie.mex or int(ingr[2]) < recepie.crex or int(ingr[3]) < recepie.wex:
+        win1 = Toplevel()
+        win1.grab_set()
+        win1['bg'] = 'white'
+        win1.geometry('210x54+850+405')
+        win1.resizable(width=False, height=False)
+        win1.title('Нет ингридиентов')
+        label = Label(win1, text='В кофемашине \nнедостаточно ингридиентов!', background='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
+    else:
+        global coice
+        global win
+        coice = "эспрессо"
+        win = Toplevel()
+        win.grab_set()
+        win['bg'] = 'white'
+        win.geometry('210x54+850+405')
+        win.resizable(width=False, height=False)
+        win.title('Подтверждение информации')
+        l = Label(win, text='Вы хотите приготовить эспрессо?', bg='red', font=("Times New Roman", 10, "bold")).pack(fill=X)
+        btn_yes = Button(win, width=10, background='white', foreground='black', font=('Comic Sans MS', 13), text="Да", command=cook).place(x=0,y=21)
+        btn_no = Button(win, background='white', foreground='black', font=('Comic Sans MS', 13), text="Нет", width=10, command=close).pack(anchor='e')
+        minus_ingr(recepie.cofex, recepie.mex, recepie.crex, recepie.wex)
 
 def cook():
     def both():
@@ -318,7 +388,6 @@ def admin():
     password_place.pack(padx=4, pady=9)
     btn_enter_pass.place(x=130, y=65)
     btn_change_pass.place(x=10, y=65)
-
 
 
 
